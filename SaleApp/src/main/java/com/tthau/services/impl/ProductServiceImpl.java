@@ -10,11 +10,13 @@ import com.tthau.services.ProductService;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author admin
  */
+@Service
 public class ProductServiceImpl implements ProductService {
 
     @Autowired

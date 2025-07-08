@@ -29,11 +29,23 @@
             <table class="table">
                 <tr>
                     <th></th>              
+                    <th>ID</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Giá</th>
                     <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                </tr>
 
+                <tr th:each = "product: ${products}">
+                    <td>
+                        <img th:src="${product.image}" width="200" class="rounded" alt="Ảnh sản phẩm"/>
+                    </td> 
+                    <td th:text="${product.id}"></td> 
+                    <td th:text="${product.name}"></td> 
+                    <td th:text="${product.price} + VNĐ"></td> 
+                    <td>
+                        <a href="#" class="btn btn-info">Cập nhật</a>
+                        <button class="btn btn-danger">Xoá</button>
+                    </td> 
                 </tr>
             </table>
         </main>

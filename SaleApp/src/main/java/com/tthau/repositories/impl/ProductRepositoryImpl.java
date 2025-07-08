@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class ProductRepositoryImpl implements ProductRepository{
+public class ProductRepositoryImpl implements ProductRepository {
 
     @Autowired
     private LocalSessionFactoryBean factory;
@@ -46,13 +46,23 @@ public class ProductRepositoryImpl implements ProductRepository{
             List<Predicate> predicates = new ArrayList<>();
 
             String kw = params.get("kw");
-            if (!kw.isEmpty()) {
+            if (kw != null && !kw.isEmpty()) {
                 predicates.add(b.like(root.get("name"), String.format("%%%s%%", kw)));
             }
 
             String fromPrice = params.get("fromPrice");
             if (fromPrice != null && !fromPrice.isEmpty()) {
                 predicates.add(b.greaterThanOrEqualTo(root.get("price"), fromPrice));
+            }
+
+            String toPrice = params.get("toPrice");
+            if (toPrice != null && !toPrice.isEmpty()) {
+                predicates.add(b.lessThanOrEqualTo(root.get("price"), toPrice));
+            }
+
+            String cateId = params.get("cateId");
+            if (cateId != null && !cateId.isEmpty()) {
+                predicates.add(b.equal(root.get("category").as(Integer.class), cateId));
             }
 
             q.where(predicates.toArray(Predicate[]::new));
