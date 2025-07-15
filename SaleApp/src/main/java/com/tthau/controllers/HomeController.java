@@ -40,7 +40,6 @@ public class HomeController {
     }
 
     @RequestMapping("/")
-    @Transactional
     public String index(Model model, @RequestParam Map<String, String> params) {
 //        model.addAttribute("categories", this.cateService.getCates());
         model.addAttribute("products", this.prodService.getProducts(params));

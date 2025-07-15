@@ -45,8 +45,8 @@ public class ProductServiceImpl implements ProductService {
             } catch (IOException ex) {
                 Logger.getLogger(ProductServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } 
-        
+        }
+
         this.prodRepo.addOrUpdateProduct(p);
     }
 
@@ -55,5 +55,8 @@ public class ProductServiceImpl implements ProductService {
         return this.prodRepo.getProductById(id);
     }
 
-    
+    @Override
+    public void deleteProduct(int id) {
+        this.prodRepo.deleteProduct(id);
+    }
 }
