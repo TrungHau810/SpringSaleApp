@@ -4,8 +4,6 @@
  */
 package com.tthau.configs;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import com.tthau.formatter.CategoryFormatter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -45,17 +43,6 @@ public class WebAppContextConfigs implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addFormatter(new CategoryFormatter());
-    }
-
-    @Bean
-    public Cloudinary cloudinary() {
-        Cloudinary cloudinary
-                = new Cloudinary(ObjectUtils.asMap(
-                        "cloud_name", "tthau2004",
-                        "api_key", "372274126191375",
-                        "api_secret", "Abk-RA6C6MUKDV34nOuFDhpLFjs",
-                        "secure", true));
-        return cloudinary;
     }
 
     @Override

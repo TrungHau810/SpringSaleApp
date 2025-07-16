@@ -3,6 +3,7 @@ package com.tthau.repositories.impl;
 import com.tthau.pojo.Cart;
 import com.tthau.pojo.OrderDetail;
 import com.tthau.pojo.SaleOrder;
+import com.tthau.repositories.ProductRepository;
 import com.tthau.repositories.ReceiptRepository;
 import com.tthau.repositories.UserRepository;
 import java.util.Date;
@@ -11,20 +12,25 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Trung Hau
  */
 @Repository
+@Transactional
 public class ReceiptRepositoryImpl implements ReceiptRepository {
-
+    
     @Autowired
     private LocalSessionFactoryBean factory;
-
+    
     @Autowired
     private UserRepository userRepo;
-
+    
+    @Autowired
+    private ProductRepository productReposity;
+    
     @Override
     public void addReceipt(List<Cart> carts) {
         if (carts != null) {
@@ -33,18 +39,19 @@ public class ReceiptRepositoryImpl implements ReceiptRepository {
             order.setUserId(this.userRepo.getUserByUsername("dhthanh"));
             order.setCreatedDate(new Date());
             s.persist(order);
-
+            
             for (var x : carts) {
                 OrderDetail d = new OrderDetail();
                 d.setQuantity(x.getQuantity());
                 d.setUnitPrice(x.getPrice());
-                d.setProductId(new ProductRepositoryImpl().getProductById(x.getId()));
+//                d.setProductId(new ProductRepositoryImpl().getProductById(x.getId()));
+                d.setProductId(this.productReposity.getProductById(x.getId()));
                 d.setOrderId(order);
-
+                
                 s.persist(d);
             }
         }
-
+        
     }
-
+    
 }
