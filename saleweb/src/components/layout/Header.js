@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
-import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { useContext, useEffect, useState } from "react";
+import { Badge, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import Apis, { endpoints } from "../../configs/Apis";
+import { Link } from "react-router-dom";
+import { MyCartContext } from "../../configs/Contexts";
 
 const Header = () => {
     const [categories, setCategories] = useState([]);
+    const [cartCounter,] = useContext(MyCartContext);
 
     const loadCates = async () => {
         let res = await Apis.get(endpoints['categories']);
@@ -17,21 +20,19 @@ const Header = () => {
     return (
         <>
             <Navbar expand="lg" className="bg-body-tertiary">
-            <Container>
-                <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="me-auto">
-                    <Nav.Link href="#home">Home</Nav.Link>
-                    <Nav.Link href="#link">Link</Nav.Link>
-                    <NavDropdown title="Danh mục" id="basic-nav-dropdown">
-                        {categories.map(c => <NavDropdown.Item key={c.id} href="#action/3.1">{c.name}</NavDropdown.Item>)}
-                        
-                    
-                    </NavDropdown>
-                </Nav>
-                </Navbar.Collapse>
-            </Container>
+                <Container>
+                    <Navbar.Brand href="#home">E-commerce website</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="me-auto">
+                            <Link to="/" className="nav-link">Trang chủ</Link>
+                            <NavDropdown title="Danh mục" id="basic-nav-dropdown">
+                                {categories.map(cate => <Link className="dropdown-item" key={cate.id} to={`/?cateId=${cate.id}`}>{cate.name}</Link>)}
+                            </NavDropdown>
+                            <Link to="/" className="nav-link">Giỏ hàng <Badge variant={"danger"}> {cartCounter}</Badge></Link>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
             </Navbar>
         </>
     );
